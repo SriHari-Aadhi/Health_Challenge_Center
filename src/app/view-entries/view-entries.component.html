@@ -1,0 +1,64 @@
+<div class="content p-6 bg-gray-800 text-white min-h-screen shadow-md">
+    <!-- Search and Filter Section -->
+    <div class="flex space-x-4 mb-6">
+      <div class="flex flex-col">
+        <label for="searchName" class="text-lg font-semibold">Search by Name:</label>
+        <input
+          type="text"
+          id="searchName"
+          [(ngModel)]="searchTerm"
+          placeholder="Search names"
+          class="p-2 border border-gray-600 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          (input)="onSearch()"
+        />
+      </div>
+  
+      <div class="flex flex-col">
+        <label for="filterType" class="text-lg font-semibold">Filter by Workout Type:</label>
+        <select
+          id="filterType"
+          [(ngModel)]="selectedType"
+          (change)="onFilter()"
+          class="p-2 border border-gray-600 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">All</option>
+          <option value="running">Running</option>
+          <option value="swimming">Swimming</option>
+          <option value="walking">Walking</option>
+          <option value="yoga">Yoga</option>
+          <option value="cycling">Cycling</option>
+        </select>
+      </div>
+    </div>
+  
+    <!-- Table -->
+    <table class="min-w-full table-auto border-collapse bg-gray-800 rounded-lg shadow-md">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-6 py-3 text-left text-gray-600">Name</th>
+          <th class="px-6 py-3 text-left text-gray-600">Workouts</th>
+          <th class="px-6 py-3 text-left text-gray-600">No of Workouts</th>
+          <th class="px-6 py-3 text-left text-gray-600">Total Duration</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let person of paginatedData" class="hover:bg-blue-500 transition-colors duration-200">
+          <td class="px-6 py-4 border-b border-gray-200">{{ person.name }}</td>
+          <td class="px-6 py-4 border-b border-gray-200">{{ person.workouts.join(', ') }}</td>
+          <td class="px-6 py-4 border-b border-gray-200">{{ person.workouts.length }}</td>
+          <td class="px-6 py-4 border-b border-gray-200">{{ person.totalDuration }} mins</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Pagination Controls -->
+    <div class="mt-4 flex justify-between items-center">
+      <div class="flex items-center">
+        <button (click)="changePage(-1)" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none" [disabled]="currentPage === 0">Previous</button>
+        <span class="px-4">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+        <button (click)="changePage(1)" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none" [disabled]="currentPage === totalPages - 1">Next</button>
+      </div>
+      <select [(ngModel)]="itemsPerPage" (change)="changePage(0)" class="p-2 border border-gray-600 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option *ngFor="let option of [5, 10, 20]" [value]="option">{{ option }} per page</option>
+      </select>
+    </div>
+  </div>
