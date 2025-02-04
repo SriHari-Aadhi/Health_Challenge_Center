@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-Chart.register()
 @Component({
   selector: 'app-analysis',
   standalone: true,
